@@ -7,7 +7,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-12 d-flex align-items-center" style="justify-content:space-between">
-          <a href="{{ route('admin.addCar' )}}" class="btn btn-success" style="margin-left: 1rem">เพิ่มข้อมูลใหม่</a>                          
+          <a href="{{ route('admin.addCar' )}}" class="btn btn-success"><i class="bi bi-plus-lg" style="margin-right:.3rem;"></i>เพิ่มข้อมูลใหม่</a>                          
           {{-- <a href="{{route('admin.home')}}">Home</a> --}}
         </div>
         {{-- <div class="col-sm-6" style="display: flex;align-items:center;justify-content:end">
@@ -51,8 +51,8 @@
                   {{-- <td> {{$k->year}} </td> --}}
                   <td> {{$k->owner}} </td>
                   <td style="padding: 12px">
-                    <a href="#" class="btn btn-primary"style="margin-right:.25rem;font-size:12px"><i class="bi bi-search"></i></a>
-                    <a href="{{route('admin.editCar',$k->id)}}" class="btn btn-warning"style="margin-right:.25rem;font-size:12px"><i class="bi bi-pencil-square"></i></a>
+                    <a href="{{route('admin.showCar',$k->id)}}" class="btn btn-dark"style="margin-right:.25rem;font-size:12px"><i class="bi bi-search"></i></a>
+                    <a href="{{route('admin.editCar',$k->id)}}" class="btn btn-dark"style="margin-right:.25rem;font-size:12px"><i class="bi bi-pencil-square"></i></a>
                     <a href="#" class="btn btn-danger"style="margin-right:.25rem;font-size:12px"><i class="bi bi-trash3"></i></a>
                   </td>
                 </tr>

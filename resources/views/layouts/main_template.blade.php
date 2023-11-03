@@ -28,7 +28,8 @@
     <link rel="stylesheet" href="{{ asset('/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-
+    {{-- Boxicons --}}
+    <link rel="stylesheet" href="{{ asset('/boxicons/css/boxicons.min.css') }}">    
     <title>ข้อมูลรถยนต์ส่วนกลาง</title>
 </head>
 
@@ -41,11 +42,8 @@
   </div>
   {{-- jQuery --}}
   <script src="{{ asset('/jquery/jquery.min.js')}}"></script>
-  {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> --}}
   {{-- ChartJS --}}
-  {{-- <script src="{{ asset('/chart.js/Chart.min.js')}}"></script> --}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
-  {{-- <script src="{{ mix('/js/app.js') }}"></script> --}}
   {{-- Theme Style Adminlte JS --}}
   <script src="{{ asset('/adminlte/js/adminlte.min.js')}}"></script>
   {{-- overlayScrollbars --}}
@@ -58,6 +56,8 @@
   <script src="{{ asset('/chart.js/dashboard.js')}}"></script>
   {{-- Modify Script --}}
   <script type="text/javascript" src="{{asset('/modify_js/script.js')}}"></script>
+  {{-- Boxicons Script --}}
+  <script type="text/javascript" src="{{asset('/boxicons/dist/boxicons.js')}}"></script>
   {{-- ChartJS --}}
   @include('ChartJS.chart')
   {{-- DataTable  --}}

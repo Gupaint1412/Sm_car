@@ -34,7 +34,7 @@ Route::get('admin/machine',[AdminController::class,'adminMachine'])->name('admin
 Route::get('admin/truck',[AdminController::class,'adminTruck'])->name('admin.truck')->middleware('is_admin');
 Route::get('admin/general',[AdminController::class,'adminGeneral'])->name('admin.general')->middleware('is_admin');
 Route::get('admin/add_car',[AdminController::class,'add_Car'])->name('admin.addCar')->middleware('is_admin');
-// Route::get('admin/edit_car/{id}',[AdminController::class,'edit_Car'])->name('admin.editCar')->middleware('is_admin');
+Route::get('admin/show_car/{smcar}',AdminController::class.'@show_Car')->name('admin.showCar')->middleware('is_admin');
 Route::get('admin/edit_car/{smcar}',AdminController::class.'@edit_Car')->name('admin.editCar')->middleware('is_admin');
 Route::get('admin/update_car',[AdminController::class,'update_Car'])->name('admin.updateCar')->middleware('is_admin');
 

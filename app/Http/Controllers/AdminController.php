@@ -86,15 +86,21 @@ class AdminController extends Controller
     public function edit_Car($id)
     {
         $smcar = Smcar::find($id);
-        // dd($smcar->id);
-        // return view('admin.edit.edit_car')->with('smcar',$smcar);
+        // dd($smcar);      
         return view('admin.edit.edit_car',compact('smcar'));    
+    }
+
+    public function show_Car($id)
+    {
+        $smcar = Smcar::find($id);
+        return view('admin.show.show_car',compact('smcar'));
     }
 
     public function update_Car()
     {
         return redirect()->route('admin.car');
     }
+
     public function adminMachine()
     {           
         $machine = Machine::all();
@@ -104,6 +110,7 @@ class AdminController extends Controller
         dd($data);
         return view('admin.admin_Machine',compact('data'));
     }
+
     public function adminTruck()
     {                
         $truck = Truck::all();
@@ -113,6 +120,7 @@ class AdminController extends Controller
         dd($data);
         return view('admin.admin_Truck',compact('data'));
     }
+
     public function adminGeneral()
     {        
         $general = General::all();

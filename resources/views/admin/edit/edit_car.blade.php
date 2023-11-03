@@ -6,7 +6,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-12 d-flex align-items-center" style="justify-content:space-between">                          
-                <a href="{{ route('admin.car') }}" class="btn btn-secondary">ย้อนกลับ</a>
+                <a href="{{ route('admin.car') }}" class="btn btn-secondary d-flex align-items-center"><i class='bx bxs-left-arrow' style="padding-right:.25rem"></i>ย้อนกลับ</a>
               </div>             
             </div>
           </div>
@@ -19,7 +19,7 @@
               <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header bg bg-warning">แก้ไขข้อมูลรถยนต์หน่วยงาน</div>
+                        <div class="card-header bg bg-warning d-flex align-items-center"><i class="bi bi-pencil-square" style="padding-right:.5rem"></i>แก้ไขข้อมูลรถยนต์หน่วยงาน</div>
                         <div class="card-body">
                             <form action="{{ route('admin.updateCar') }}" method="POST">
                                 @csrf
@@ -59,13 +59,13 @@
                                         <label for="" class="form-label label_top">
                                             รุ่นรถ                                        
                                         </label>
-                                        <input type="text" class="form-control input_data" id="Modelcar" name="model" placeholder="กรุณาใส่รุ่นรถ  (ตัวอย่าง TRITON)" onkeyup="this.value = this.value.toUpperCase();" required>
+                                        <input type="text" class="form-control input_data" id="Modelcar" name="model" placeholder="กรุณาใส่รุ่นรถ  (ตัวอย่าง TRITON)" onkeyup="this.value = this.value.toUpperCase();" value="{{$smcar->model}}" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="" class="form-label label_top">
                                             ประเภทรถ                                        
                                         </label>
-                                        <input type="text" class="form-control input_data" name="type" id="Typecar" list="Type_car" placeholder="กรุณาเลือกประเภทรถ" required>
+                                        <input type="text" class="form-control input_data" name="type" id="Typecar" list="Type_car" placeholder="กรุณาเลือกประเภทรถ" value="{{$smcar->type}}" required>
                                             <datalist id="Type_car">    
                                                 <option value="ไม่ได้ระบุประเภท"></option>
                                                 <option value="รถกระบะ ตอนเดียว"></option>
@@ -85,13 +85,13 @@
                                         <label for="" class="form-label label_top">
                                             ทะเบียนรถยนต์                                        
                                         </label>
-                                        <input type="text" class="form-control input_data" name="license" id="Licensecar" placeholder="กรุณาใส่ทะเบียนรถ  (ตัวอย่าง บว-4007)" required>
+                                        <input type="text" class="form-control input_data" name="license" id="Licensecar" placeholder="กรุณาใส่ทะเบียนรถ  (ตัวอย่าง บว-4007)" value="{{$smcar->license}}" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="" class="form-label label_top">
                                             รหัส                                        
                                         </label>
-                                        <input type="text" class="form-control input_data" name="code_machine" id="Code_machinecar" placeholder="กรุณาใส่รหัส  (ตัวอย่าง 001-54-0091)" required>
+                                        <input type="text" class="form-control input_data" name="code_machine" id="Code_machinecar" placeholder="กรุณาใส่รหัส  (ตัวอย่าง 001-54-0091)" value="{{$smcar->code_machine}}" required>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
@@ -99,19 +99,19 @@
                                         <label for="" class="form-label label_top">
                                             ปีที่จัดซื้อ                                        
                                         </label>
-                                        <input type="text" class="form-control input_data" id="" name="year" placeholder="กรุณาใส่ปีที่จัดซื้อ  (ตัวอย่าง 2564)" required>
+                                        <input type="text" class="form-control input_data" id="" name="year" placeholder="กรุณาใส่ปีที่จัดซื้อ  (ตัวอย่าง 2564)" value="{{$smcar->year}}" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="" class="form-label label_top">
                                             งบประมาณ                                        
                                         </label>
-                                        <input type="text" class="form-control input_data" id="" name="budget" placeholder="กรุณาใส่งบประมาณ  (ตัวอย่าง 493800)" required>
+                                        <input type="text" class="form-control input_data" id="" name="budget" placeholder="กรุณาใส่งบประมาณ  (ตัวอย่าง 493800)" value="{{$smcar->budget}}" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="" class="form-label label_top">
                                             หน่วยงานที่ใช้งาน                                        
                                         </label>
-                                        <input type="text" class="form-control input_data" id="" name="owner" placeholder="กรุณาเลือกหน่วยงาน" list="Owner_car" required>
+                                        <input type="text" class="form-control input_data" id="" name="owner" placeholder="กรุณาเลือกหน่วยงาน" list="Owner_car" value="{{$smcar->owner}}" required>
                                             <datalist id="Owner_car">    
                                                 <option value="กองช่าง"></option>
                                                 <option value="กองการเจ้าหน้าที่"></option>
@@ -134,19 +134,19 @@
                                         <label for="" class="form-label label_top">
                                             ผู้รับผิดชอบ                                            
                                         </label>
-                                            <input type="text" class="form-control input_data" id="Name_res_car" name="responsible_person" placeholder="กรุณาใส่ ชื่อ นามสกุล  (ตัวอย่าง มานี  ปรีดาชัย)" required>
+                                            <input type="text" class="form-control input_data" id="Name_res_car" name="responsible_person" placeholder="กรุณาใส่ ชื่อ นามสกุล  (ตัวอย่าง มานี  ปรีดาชัย)" value="{{$smcar->responsible_person}}" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="" class="form-label label_top">
                                             เบอร์โทรศัพท์                                            
                                         </label>
-                                            <input type="text" class="form-control input_data" id="Phonecar" name="phone" placeholder="กรุณาใส่เบอร์โทรศัพท์" maxlength="10" required>
+                                            <input type="text" class="form-control input_data" id="Phonecar" name="phone" placeholder="กรุณาใส่เบอร์โทรศัพท์" maxlength="10" value="{{$smcar->phone}}" required>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-md-12">
                                         <label for=" " class="form-label label_top"> หมายเหตุ </label>
-                                        <input type="text" class="form-control input_data" id="Notecar" name="note" placeholder="กรุณาใส่หมายเหตุ (ถ้ามี)" >
+                                        <input type="text" class="form-control input_data" id="Notecar" name="note" placeholder="กรุณาใส่หมายเหตุ (ถ้ามี)" value="{{$smcar->note}}">
                                     </div>
                                 </div>
                                 <div class="row mt-3" style="display: none">
@@ -158,25 +158,39 @@
                                     </div>
                                 </div>
                                 <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <label for="formFile" class="form-label">เพิ่มรูปภาพ</label>
+                                        <input class="form-control-file border" type="file" id="formFile" name="path_img[]" multiple accept="image/*" value="{{$smcar->path_img}}">                                        
+                                    </div>
+                                    
+                                    {{-- <div class="col-md-4">
+                                        <label for=" " class="form-label label_top"> กรุณาเลือกไฟล์ </label>
+                                        <div class="custom-file">                                            
+                                            <input type="file" class="custom-file-input" id="formFile" name="path_img[]" multiple accept="image/*" value="{{$smcar->path_img}}">
+                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                        </div>
+                                    </div>                                     --}}
+                                </div>
+                                <div class="row mt-3">
                                     <div class="col-md-12" style="text-align:center;margin-top:10px">                                    
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">
-                                        บันทึกข้อมูล
+                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">
+                                            <i class="bi bi-floppy2-fill" style="padding-right:.25rem"></i> บันทึกข้อมูล
                                         </button>                                    
                                         <div class="modal fade" id="modal-default">
                                             <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                <h4 class="modal-title">ยืนยันการบันทึกข้อมูล</h4>
+                                                <h5 class="modal-title">ยืนยันการแก้ไขข้อมูล</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                <p>คุณต้องการบันทึกข้อมูล?</p>
+                                                <h4>กรุณากด "ยืนยัน" เพื่อบันทึกข้อมูล</h4>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
-                                                <button type="submit" class="btn btn-primary">ยืนยัน</button>
+                                                <button type="submit" class="btn btn-success">ยืนยัน</button>
                                                 </div>
                                             </div>
                                             <!-- /.modal-content -->
