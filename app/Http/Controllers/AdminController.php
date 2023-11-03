@@ -33,7 +33,7 @@ class AdminController extends Controller
     {
         return view('home');
     }
-
+//------------------------------------------------------ Index adminCar
     public function adminHome()
     {       
         // $data_car_owner = DB::table('smcar2')->select('owner')->groupBy('owner')->get();
@@ -66,7 +66,9 @@ class AdminController extends Controller
         );        
         return view('admin.adminHome',compact('data'));
     }
+//------------------------------------------------------ END Index adminCar
 
+//------------------------------------------------------ Data Table AdminCar
     public function adminCar()
     {        
         $smcar = Smcar::all();
@@ -77,29 +79,53 @@ class AdminController extends Controller
         // return view('admin.admin_Car',compact('data'));
         return view('admin.admin_Car')->with('smcar',$smcar);
     }
+//------------------------------------------------------ END Data Table AdminCar
 
+//------------------------------------------------------ Form AddCar
     public function add_Car()
     {
         return view('admin.create.create_car');
     }
+//------------------------------------------------------ End Form AddCar
 
+//------------------------------------------------------ Store Car
+    public function Store_Car(Request $request)
+    {
+        $image = array();
+        if($files = $request->file('path_image')){
+            foreach($files as $file){
+                $name_gen = hexdec(uniqid());   //เจนชื่อเป็นเลขฐาน 16
+                $ext = strtolower($file->getClientOriginalExtension()); //ดึงนามสกถลไฟล์
+                $image_full_name = $name_gen.'.'.$ext;  //นำชื่อที่เจนกับนามสกุลที่ดึงมาต่อกัน
+                $upload_path = 'image/cars/';
+            }
+        }
+    }    
+//------------------------------------------------------ End Store Car
+
+//------------------------------------------------------ Form EditCar
     public function edit_Car($id)
     {
         $smcar = Smcar::find($id);
         // dd($smcar);      
         return view('admin.edit.edit_car',compact('smcar'));    
     }
+//------------------------------------------------------ End Form EditCar
 
+//------------------------------------------------------ Update CarData
+    public function update_Car()
+    {
+        return redirect()->route('admin.car');
+    }
+//------------------------------------------------------ End Update CarData
+
+//------------------------------------------------------ Show CarData
     public function show_Car($id)
     {
         $smcar = Smcar::find($id);
         return view('admin.show.show_car',compact('smcar'));
     }
-
-    public function update_Car()
-    {
-        return redirect()->route('admin.car');
-    }
+//------------------------------------------------------ End Show Cardata
 
     public function adminMachine()
     {           
