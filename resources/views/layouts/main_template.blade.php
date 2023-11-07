@@ -30,6 +30,9 @@
     <link rel="stylesheet" href="{{ asset('/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     {{-- Boxicons --}}
     <link rel="stylesheet" href="{{ asset('/boxicons/css/boxicons.min.css') }}">    
+    {{-- OwlCarousel --}}
+    <link rel="stylesheet" href="{{ asset('/OwlCarousel/dist/assets/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/OwlCarousel/dist/assets/owl.theme.default.min.css') }}">   
     <title>ข้อมูลรถยนต์ส่วนกลาง</title>
 </head>
 
@@ -74,5 +77,8 @@
   <script type="text/javascript" src="{{asset('/datatables-buttons/js/buttons.print.min.js')}}"></script>
   <script type="text/javascript" src="{{asset('/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
   @include('DataTable.table')
+  {{-- OwlCarousel --}}
+  <script type="text/javascript" src="{{asset('/OwlCarousel/dist/owl.carousel.min.js')}}"></script>
+  @include('Owl_carousel.owl_carousel')  
 </body>
 </html>

@@ -18,14 +18,20 @@
           <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card mb-3">
-                        @if($smcar->path_img == '')
+                    <div class="card mb-3">                      
+                          @if($smcar->path_img == '')
                             <div style="height: 300px;width:450px;margin-left:auto;margin-right:auto">
                                 <img class="card-img-top" src=" {{asset('/img/pao.jpg')}}" alt="Card image cap" style="max-height: 100%">
                             </div>
-                            @else 
-                                <img class="card-img-top" src="{{$smcar->path_img}}" alt="Card image cap">                             
-                        @endif
+                            @else
+                            <div class="owl-carousel owl-theme">                               
+                              @foreach(explode('|',$smcar->path_img) as $path)                                
+                                <div class="item">
+                                  <img src="{{asset($path)}}" style="height:350px">
+                                </div>
+                              @endforeach                              
+                            </div>                                                     
+                          @endif                     
                         <div class="card-body">
                           {{-- <h5 class="card-title">Card title</h5> --}}
                           <div class="row">

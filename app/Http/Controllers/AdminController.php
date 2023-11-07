@@ -7,6 +7,7 @@ use App\Models\Smcar;
 use App\Models\Machine;
 use App\Models\Truck;
 use App\Models\General;
+use App\Models\log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -35,13 +36,14 @@ class AdminController extends Controller
     }
 //------------------------------------------------------ Index adminCar
     public function adminHome()
-    {       
+    {   // How to get data search Eloquent or Query Builder
         // $data_car_owner = DB::table('smcar2')->select('owner')->groupBy('owner')->get();
         $data_car_count_owner = DB::table('smcar2')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();
         $data_machine_count_owner = DB::table('machine2')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();
         $data_truck_count_owner = DB::table('truck')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();
         $data_general_work_count_owner = DB::table('general_work')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();
-        $smcar = Smcar::all();
+        // $smcar = Smcar::all();   //Eloquent
+        $smcar = Smcar::where('deleted',0)->get();
         $machine = Machine::all();
         $truck = Truck::all();
         $general = General::all();
@@ -71,13 +73,16 @@ class AdminController extends Controller
 //------------------------------------------------------ Data Table AdminCar
     public function adminCar()
     {        
-        $smcar = Smcar::all();
+        // $smcar = Smcar::all();
+        $smcar = Smcar::where('deleted',0)->get();
+        $count_smcar = $smcar->count('id');
         $data = array(
-            'smcar' => $smcar,           
+            'smcar' => $smcar,   
+            'count_smcar' => $count_smcar,                    
         );
         // dd($data);
-        // return view('admin.admin_Car',compact('data'));
-        return view('admin.admin_Car')->with('smcar',$smcar);
+        return view('admin.admin_Car',compact('data'));
+        // return view('admin.admin_Car')->with('smcar',$smcar);
     }
 //------------------------------------------------------ END Data Table AdminCar
 
@@ -89,17 +94,73 @@ class AdminController extends Controller
 //------------------------------------------------------ End Form AddCar
 
 //------------------------------------------------------ Store Car
-    public function Store_Car(Request $request)
+    public function store_Car(Request $request)
     {
         $image = array();
-        if($files = $request->file('path_image')){
+        if($files = $request->file('path_img')){
             foreach($files as $file){
                 $name_gen = hexdec(uniqid());   //เจนชื่อเป็นเลขฐาน 16
                 $ext = strtolower($file->getClientOriginalExtension()); //ดึงนามสกถลไฟล์
                 $image_full_name = $name_gen.'.'.$ext;  //นำชื่อที่เจนกับนามสกุลที่ดึงมาต่อกัน
-                $upload_path = 'image/cars/';
+                $upload_path = 'image/cars/'; //กำหนด path เก็บภาพ
+                $image_url = $upload_path.$image_full_name; //เตรียม path เก็บฐานข้อมูล
+                $file->move($upload_path,$image_full_name); //ย้ายภาพไปเก็บที่ path ที่กำหนด
+                $image[] = $image_url;
             }
         }
+        $old_data = array(
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        );
+        $convert_array_adddata = implode("|",$old_data);
+        $user_action = 'Add Car';
+        
+        log::insert([
+            'user_id'=>Auth::user()->id,
+            'action'=>$user_action,
+            'rank_user'=>Auth::user()->is_admin,
+            'name_user'=>Auth::user()->name,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'old_data'=>'null',
+            'new_data'=>$convert_array_adddata,
+            'time_add'=>Carbon::now(),
+        ]);
+
+        Smcar::insert([
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        ]);
+
+        return redirect()->route('admin.home');
     }    
 //------------------------------------------------------ End Store Car
 
@@ -113,8 +174,23 @@ class AdminController extends Controller
 //------------------------------------------------------ End Form EditCar
 
 //------------------------------------------------------ Update CarData
-    public function update_Car()
+    public function update_Car(Request $request, $id)
     {
+        $smcar_olddata = Smcar::find($id);
+        $convert_array_old_data = implode("|",$smcar_olddata);
+        $user_action = 'Edit Car';
+        $image = array();
+        if($files = $request->file('path_img')){
+            foreach($files as $file){
+                $name_gen = hexdec(uniqid());   //เจนชื่อเป็นเลขฐาน 16
+                $ext = strtolower($file->getClientOriginalExtension()); //ดึงนามสกถลไฟล์
+                $image_full_name = $name_gen.'.'.$ext;  //นำชื่อที่เจนกับนามสกุลที่ดึงมาต่อกัน
+                $upload_path = 'image/cars/'; //กำหนด path เก็บภาพ
+                $image_url = $upload_path.$image_full_name; //เตรียม path เก็บฐานข้อมูล
+                $file->move($upload_path,$image_full_name); //ย้ายภาพไปเก็บที่ path ที่กำหนด
+                $image[] = $image_url;
+            }
+        }
         return redirect()->route('admin.car');
     }
 //------------------------------------------------------ End Update CarData

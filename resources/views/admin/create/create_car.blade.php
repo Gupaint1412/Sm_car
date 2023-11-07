@@ -1,5 +1,35 @@
 @extends('layouts.no_chart_template')
-@section('content')    
+@section('content')  
+<style>
+.custom__form input {
+  opacity: 0;
+  height: 0;
+}
+.custom__image-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.custom__image-container label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 150%;
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+  border: solid 1px black;
+  border-radius: 5px;
+  object-fit: cover;
+}
+.custom__image-container img {
+  width: 100px;
+  height: 100px;
+  border: solid 1px black;
+  border-radius: 5px;
+  object-fit: cover;
+}
+</style>  
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <div class="content-header">
@@ -21,7 +51,7 @@
                     <div class="card">
                         <div class="card-header bg bg-primary d-flex align-items-center"><i class="bi bi-plus-square" style="padding-right:.5rem"></i>เพิ่มข้อมูลรถยนต์หน่วยงาน</div>
                         <div class="card-body">
-                            <form action="#" method="POST" enctype="multipart/form-data">
+                            <form action="{{route('admin.storeCar')}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-4">
@@ -157,9 +187,11 @@
                                     </div>
                                 </div>
                                 <div class="row mt-3">
-                                    <div class="col-md-4">
-                                        <label for="formFile" class="form-label">เพิ่มรูปภาพ</label>
-                                        <input class="form-control-file border" type="file" id="formFile" name="path_img[]" multiple accept="image/*" >                                        
+                                    <div class="col-md-12">
+                                        <label for="formFile" class="form-label">เพิ่มรูปภาพ (เพิ่มได้มากกว่า 1 รูป)</label>
+                                        <input class="form-control-file border" type="file" id="formFile" name="path_img[]" multiple accept="image/*" > 
+                                       
+                                        
                                     </div>                                                                    
                                 </div>
                                 <div class="row mt-3">
@@ -198,6 +230,5 @@
           </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
-      </div>
-    
+      </div>          
 @endsection
