@@ -1,35 +1,5 @@
 @extends('layouts.no_chart_template')
-@section('content')  
-<style>
-.custom__form input {
-  opacity: 0;
-  height: 0;
-}
-.custom__image-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.custom__image-container label {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 150%;
-  cursor: pointer;
-  width: 100px;
-  height: 100px;
-  border: solid 1px black;
-  border-radius: 5px;
-  object-fit: cover;
-}
-.custom__image-container img {
-  width: 100px;
-  height: 100px;
-  border: solid 1px black;
-  border-radius: 5px;
-  object-fit: cover;
-}
-</style>  
+@section('content')    
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <div class="content-header">
@@ -189,9 +159,7 @@
                                 <div class="row mt-3">
                                     <div class="col-md-12">
                                         <label for="formFile" class="form-label">เพิ่มรูปภาพ (เพิ่มได้มากกว่า 1 รูป)</label>
-                                        <input class="form-control-file border" type="file" id="formFile" name="path_img[]" multiple accept="image/*" > 
-                                       
-                                        
+                                        <input class="form-control-file border" type="file" id="formFile" name="path_img[]" multiple accept="image/*" >                                                                                
                                     </div>                                                                    
                                 </div>
                                 <div class="row mt-3">

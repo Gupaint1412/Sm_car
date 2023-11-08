@@ -5,8 +5,11 @@
         <div class="content-header">
           <div class="container-fluid">
             <div class="row mb-2">
-              <div class="col-sm-12 d-flex align-items-center" style="justify-content:space-between">                          
-                <a href="{{ route('admin.car') }}" class="btn btn-secondary d-flex align-items-center"><i class='bx bxs-left-arrow' style="padding-right:.25rem"></i>ย้อนกลับ</a>
+              <div class="col-sm-12 d-flex align-items-center" style="justify-content:space-between">
+                <div class="d-flex">                          
+                  <a href="{{ route('admin.car') }}" class="btn btn-secondary d-flex align-items-center"><i class='bx bxs-left-arrow' style="padding-right:.25rem"></i>ย้อนกลับ</a>
+                  <a href="{{ route('admin.editCar',$smcar->id) }}" class="btn btn-warning" style="margin-left:2rem"><i class="bi bi-pencil-square"style="padding-right:.25rem"></i>แก้ไขข้อมูล</a>
+                </div>
               </div>             
             </div>
           </div>

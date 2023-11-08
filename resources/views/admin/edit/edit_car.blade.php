@@ -21,9 +21,9 @@
                     <div class="card">
                         <div class="card-header bg bg-warning d-flex align-items-center"><i class="bi bi-pencil-square" style="padding-right:.5rem"></i>แก้ไขข้อมูลรถยนต์หน่วยงาน</div>
                         <div class="card-body">
-                            <form action="{{ route('admin.updateCar') }}" method="POST">
+                            <form action="{{ route('admin.updateCar',$smcar->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                @method('PUT')
+                                {{-- @method('PUT') --}}
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="brand">ยี่ห้อรถ</label>
@@ -158,9 +158,9 @@
                                     </div>
                                 </div>
                                 <div class="row mt-3">
-                                    <div class="col-md-4">
-                                        <label for="formFile" class="form-label">เพิ่มรูปภาพ</label>
-                                        <input class="form-control-file border" type="file" id="formFile" name="path_img[]" multiple accept="image/*" value="{{$smcar->path_img}}">                                        
+                                    <div class="col-md-12">
+                                        <label for="formFile" class="form-label">เพิ่มรูปภาพ (เพิ่มได้มากกว่า 1 รูป)</label>
+                                        <input class="form-control-file border" type="file" id="formFile" name="path_img[]" multiple accept="image/*" >                                                                                
                                     </div>
                                     
                                     {{-- <div class="col-md-4">

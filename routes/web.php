@@ -33,12 +33,18 @@ Route::get('admin/car',[AdminController::class,'adminCar'])->name('admin.car')->
 Route::get('admin/machine',[AdminController::class,'adminMachine'])->name('admin.machine')->middleware('is_admin');
 Route::get('admin/truck',[AdminController::class,'adminTruck'])->name('admin.truck')->middleware('is_admin');
 Route::get('admin/general',[AdminController::class,'adminGeneral'])->name('admin.general')->middleware('is_admin');
+//================================== ADMIN CRUD CAR
 Route::get('admin/add_car',[AdminController::class,'add_Car'])->name('admin.addCar')->middleware('is_admin');
 Route::post('admin/store_car',[AdminController::class,'store_Car'])->name('admin.storeCar')->middleware('is_admin');
-Route::get('admin/show_car/{smcar}',AdminController::class.'@show_Car')->name('admin.showCar')->middleware('is_admin');
-Route::get('admin/edit_car/{smcar}',AdminController::class.'@edit_Car')->name('admin.editCar')->middleware('is_admin');
-Route::get('admin/update_car',[AdminController::class,'update_Car'])->name('admin.updateCar')->middleware('is_admin');
-
+Route::get('admin/show_car/{id}',AdminController::class.'@show_Car')->name('admin.showCar')->middleware('is_admin');
+Route::get('admin/edit_car/{id}',AdminController::class.'@edit_Car')->name('admin.editCar')->middleware('is_admin');
+Route::post('admin/update_car/{id}',AdminController::class.'@update_Car')->name('admin.updateCar')->middleware('is_admin');
+//================================== ADMIN CRUD MACHINE
+Route::get('admin/add_machine',[AdminController::class,'add_Machine'])->name('admin.addMachine')->middleware('is_admin');
+Route::post('admin/store_machine',[AdminController::class,'store_Machine'])->name('admin.storeMachine')->middleware('is_admin');
+Route::get('admin/show_machine/{id}',AdminController::class.'@show_Machine')->name('admin.showMachine')->middleware('is_admin');
+Route::get('admin/edit_machine/{id}',AdminController::class.'@edit_Machine')->name('admin.editMachine')->middleware('is_admin');
+Route::post('admin/update_machine/{id}',AdminController::class.'@update_Machine')->name('admin.updateMachine')->middleware('is_admin');
 //--------------------------------- Route Users
 Route::get('users/home',[UsersController::class,'index'])->name('users.home');
 Route::get('users/car',[UsersController::class,'usersCar'])->name('users.car');

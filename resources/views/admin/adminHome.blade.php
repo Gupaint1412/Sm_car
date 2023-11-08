@@ -108,7 +108,7 @@
                       <path d="M4257 1570 c-112 -34 -169 -173 -114 -280 85 -170 337 -129 372 61
                       25 136 -121 260 -258 219z"></path>
                   </g>
-              </svg>
+                </svg>
               </div>
               <a href="{{ route('admin.machine') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>

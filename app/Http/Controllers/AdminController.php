@@ -108,7 +108,7 @@ class AdminController extends Controller
                 $image[] = $image_url;
             }
         }
-        $old_data = array(
+        $new_data = array(
             'user_id'=>Auth::user()->id,
             'brand'=>$request->brand,
             'model'=>$request->model,
@@ -126,7 +126,7 @@ class AdminController extends Controller
             'deleted'=>$request->deleted,
             'created_at'=>Carbon::now(),
         );
-        $convert_array_adddata = implode("|",$old_data);
+        $convert_array_adddata = implode("|",$new_data);
         $user_action = 'Add Car';
         
         log::insert([
@@ -140,7 +140,7 @@ class AdminController extends Controller
             'new_data'=>$convert_array_adddata,
             'time_add'=>Carbon::now(),
         ]);
-
+        // dd($image);
         Smcar::insert([
             'user_id'=>Auth::user()->id,
             'brand'=>$request->brand,
@@ -175,10 +175,11 @@ class AdminController extends Controller
 
 //------------------------------------------------------ Update CarData
     public function update_Car(Request $request, $id)
-    {
-        $smcar_olddata = Smcar::find($id);
+    {    
+        $smcar_olddata = Smcar::find($id)->toArray();
         $convert_array_old_data = implode("|",$smcar_olddata);
         $user_action = 'Edit Car';
+
         $image = array();
         if($files = $request->file('path_img')){
             foreach($files as $file){
@@ -191,6 +192,57 @@ class AdminController extends Controller
                 $image[] = $image_url;
             }
         }
+
+        $smcar_newdata = array(
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        );
+        $convert_array_new_data = implode("|",$smcar_newdata);
+
+        log::insert([
+            'user_id'=>Auth::user()->id,
+            'action'=>$user_action,
+            'rank_user'=>Auth::user()->is_admin,
+            'name_user'=>Auth::user()->name,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'old_data'=>$convert_array_old_data,
+            'new_data'=>$convert_array_new_data,
+            'time_add'=>Carbon::now(),
+        ]);
+
+        Smcar::find($id)->update([
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        ]);    
         return redirect()->route('admin.car');
     }
 //------------------------------------------------------ End Update CarData
@@ -205,12 +257,170 @@ class AdminController extends Controller
 
     public function adminMachine()
     {           
-        $machine = Machine::all();
+        // $machine = Machine::all();
+        $machine = Machine::where('deleted',0)->get();
+        $count_machine = $machine->count('id');
         $data = array(
-            'machine' => $machine,            
+            'machine' => $machine,
+            'count_machine' => $count_machine,            
         );
-        dd($data);
         return view('admin.admin_Machine',compact('data'));
+    }
+
+    public function add_Machine()
+    {
+        return view('admin.create.create_machine');
+    }
+
+    public function store_Machine(Request $request)
+    {
+        $image = array();
+        if($files = $request->file('path_img')){
+            foreach($files as $file){
+                $name_gen = hexdec(uniqid());
+                $ext = strtolower($file->getClientOriginalExtension());
+                $image_full_name = $name_gen.'.'.$ext;
+                $upload_path = 'image/machines/';
+                $image_url = $upload_path.$image_full_name;
+                $file->move($upload_path,$image_full_name);
+                $image[] = $image_url;
+            }
+        }
+        $new_data = array(
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        );
+        $convert_array_adddata = implode("|",$new_data);
+        $user_action = 'Add Machine';
+        
+        log::insert([
+            'user_id'=>Auth::user()->id,
+            'action'=>$user_action,
+            'rank_user'=>Auth::user()->is_admin,
+            'name_user'=>Auth::user()->name,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'old_data'=>'null',
+            'new_data'=>$convert_array_adddata,
+            'time_add'=>Carbon::now(),
+        ]);
+        Machine::insert([
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        ]);
+
+        return redirect()->route('admin.home');
+    }
+
+    public function show_Machine($id)
+    {
+        $machine = Machine::find($id);
+        return view('admin.show.show_machine',compact('machine'));
+    }
+
+    public function edit_Machine($id)
+    {
+        $machine = Machine::find($id);
+        return view('admin.edit.edit_machine',compact('machine'));
+    }
+
+    public function update_Machine(Request $request, $id)
+    {
+        $machine_olddata = Machine::find($id)->toArray();
+        $convert_array_old_data = implode("|",$machine_olddata);
+        $user_action = 'Edit Machine';
+
+        $image = array();
+        if($files = $request->file('path_img')){
+            foreach($files as $file){
+                $name_gen = hexdec(uniqid());
+                $ext = strtolower($file->getClientOriginalExtension());
+                $image_full_name = $name_gen.'.'.$ext;
+                $upload_path = 'image/machines/';
+                $image_url = $upload_path.$image_full_name;
+                $file->move($upload_path,$image_full_name);
+                $image[] = $image_url;
+            }
+        }
+        $machine_newdata = array(
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        );
+        $convert_array_new_data = implode("|",$machine_newdata);
+
+        log::insert([
+            'user_id'=>Auth::user()->id,
+            'action'=>$user_action,
+            'rank_user'=>Auth::user()->is_admin,
+            'name_user'=>Auth::user()->name,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'old_data'=>$convert_array_old_data,
+            'new_data'=>$convert_array_new_data,
+            'time_add'=>Carbon::now(),
+        ]);
+
+        Machine::find($id)->update([
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        ]);    
+        return redirect()->route('admin.machine');
     }
 
     public function adminTruck()

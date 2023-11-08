@@ -6,8 +6,11 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-12 d-flex align-items-center" style="justify-content:space-between">
-          <a href="{{ route('admin.addCar' )}}" class="btn btn-success"><i class="bi bi-plus-lg" style="margin-right:.3rem;"></i>เพิ่มข้อมูลใหม่</a>                                   
-          <h4>รายการทั้งหมด {{$data['count_smcar']}} รายการ</h4>
+          <div class="d-flex">
+            <a href="{{route('admin.home')}}" class="btn btn-dark" style="margin-right: 2rem"><i class='bx bx-left-arrow'style="margin-right:.3rem;"></i>ย้อนกลับ</a>
+            <a href="{{ route('admin.addCar' )}}" class="btn btn-success"><i class="bi bi-plus-lg" style="margin-right:.3rem;"></i>เพิ่มข้อมูลใหม่</a>
+          </div>                                   
+          <h4 style="margin-bottom:0"><i class="fa fa-car" style="padding-right:5px"></i>รายการทั้งหมด {{$data['count_smcar']}} รายการ</h4>
         </div>        
       </div>
     </div>
