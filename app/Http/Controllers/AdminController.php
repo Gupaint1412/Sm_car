@@ -160,7 +160,7 @@ class AdminController extends Controller
             'created_at'=>Carbon::now(),
         ]);
 
-        return redirect()->route('admin.home');
+        return redirect()->route('admin.car');
     }    
 //------------------------------------------------------ End Store Car
 
@@ -255,6 +255,13 @@ class AdminController extends Controller
     }
 //------------------------------------------------------ End Show Cardata
 
+    public function delete_Car($id)
+    {   
+        $user_action = 'Delete Car';        
+        $smcar = Smcar::find($id)->update(['deleted'=>'1']);
+        return redirect()->route('admin.car');
+    }
+
     public function adminMachine()
     {           
         // $machine = Machine::all();
@@ -337,7 +344,7 @@ class AdminController extends Controller
             'created_at'=>Carbon::now(),
         ]);
 
-        return redirect()->route('admin.home');
+        return redirect()->route('admin.machine');
     }
 
     public function show_Machine($id)
@@ -423,23 +430,369 @@ class AdminController extends Controller
         return redirect()->route('admin.machine');
     }
 
+    public function delete_Machine($id)
+    {
+        $user_action = 'Delete Machine';
+        $machine = Machine::find($id)->update(['deleted'=>'1']);
+        return redirect()->route('admin.machine');
+    }
+
     public function adminTruck()
     {                
-        $truck = Truck::all();
+        // $truck = Truck::all();
+        $truck = Truck::where('deleted',0)->get();
+        $count_truck = $truck->count('id');
         $data = array(
-            'truck' => $truck,            
+            'truck' => $truck,
+            'count_truck'=>$count_truck,            
         );
-        dd($data);
+        // dd($data);
         return view('admin.admin_Truck',compact('data'));
+    }
+
+    public function add_Truck()
+    {
+        return view('admin.create.create_truck');
+    }
+
+    public function store_Truck(Request $request)
+    {
+        $image = array();
+        if($files = $request->file('path_img')){
+            foreach($files as $file){
+                $name_gen = hexdec(uniqid());
+                $ext = strtolower($file->getClientOriginalExtension());
+                $image_full_name = $name_gen.'.'.$ext;
+                $upload_path = 'image/trucks/';
+                $image_url = $upload_path.$image_full_name;
+                $file->move($upload_path,$image_full_name);
+                $image[] = $image_url;
+            }
+        }
+        $new_data = array(
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'hp_kw'=>$request->hp_kw." "."แรงม้า",
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        );
+        $convert_array_adddata = implode("|",$new_data);
+        $user_action = 'Add Truck';
+        log::insert([
+            'user_id'=>Auth::user()->id,
+            'action'=>$user_action,
+            'rank_user'=>Auth::user()->is_admin,
+            'name_user'=>Auth::user()->name,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'old_data'=>'null',
+            'new_data'=>$convert_array_adddata,
+            'time_add'=>Carbon::now(),
+        ]);
+        Truck::insert([
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'hp_kw'=>$request->hp_kw." "."แรงม้า",
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        ]);
+
+        return redirect()->route('admin.truck');
+    }
+
+    public function edit_Truck($id)
+    {
+        $truck = Truck::find($id);
+        return view('admin.edit.edit_truck',compact('truck'));
+    }
+
+    public function update_Truck(Request $request ,$id)
+    {
+        $truck_olddata = Truck::find($id)->toArray();
+        $convert_array_old_data = implode("|",$truck_olddata);
+        $user_action = 'Edit Truck';
+
+        $image = array();
+        if($files = $request->file('path_img')){
+            foreach($files as $file){
+                $name_gen = hexdec(uniqid());
+                $ext = strtolower($file->getClientOriginalExtension());
+                $image_full_name = $name_gen.'.'.$ext;
+                $upload_path = 'image/trucks/';
+                $image_url = $upload_path.$image_full_name;
+                $file->move($upload_path,$image_full_name);
+                $image[] = $image_url;
+            }
+        }
+        $truck_newdata = array(
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'hp_kw'=>$request->hp_kw.' ','แรงม้า',
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        );
+        $convert_array_new_data = implode("|",$truck_newdata);
+
+        log::insert([
+            'user_id'=>Auth::user()->id,
+            'action'=>$user_action,
+            'rank_user'=>Auth::user()->is_admin,
+            'name_user'=>Auth::user()->name,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'old_data'=>$convert_array_old_data,
+            'new_data'=>$convert_array_new_data,
+            'time_add'=>Carbon::now(),
+        ]);
+
+        Truck::find($id)->update([
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'hp_kw'=>$request->hp_kw." "."แรงม้า",
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        ]);    
+        // Truck::find($id)->update([$truck_newdata]);
+        return redirect()->route('admin.truck');
+    }
+
+    public function show_Truck($id)
+    {
+        $truck = Truck::find($id);
+        return view('admin.show.show_truck',compact('truck'));
+    }
+
+    public function delete_Truck($id)
+    {
+        $user_action = 'Delete Truck';
+        $truck = Truck::find($id)->update(['deleted'=>'1']);
+        return redirect()->route('admin.truck');
     }
 
     public function adminGeneral()
     {        
-        $general = General::all();
+        // $general = General::all();
+        $general = General::where('deleted',0)->get();
+        $count_general = $general->count('id');
         $data = array(
             'general' => $general,            
+            'count_general'=>$count_general,
         );
-        dd($data);
+        // dd($data);
         return view('admin.admin_General',compact('data'));
+    }
+
+    public function add_General()
+    {
+        return view('admin.create.create_general');
+    }
+
+    public function store_General(Request $request)
+    {
+        $image = array();
+        if($files = $request->file('path_img')){
+            foreach($files as $file){
+                $name_gen = hexdec(uniqid());
+                $ext = strtolower($file->getClientOriginalExtension());
+                $image_full_name = $name_gen.'.'.$ext;
+                $upload_path = 'image/generals/';
+                $image_url = $upload_path.$image_full_name;
+                $file->move($upload_path,$image_full_name);
+                $image[] = $image_url;
+            }
+        }
+        $new_data = array(
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'hp_kw'=>$request->hp_kw." "."แรงม้า",
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        );
+        $convert_array_adddata = implode("|",$new_data);
+        $user_action = 'Add General';
+        log::insert([
+            'user_id'=>Auth::user()->id,
+            'action'=>$user_action,
+            'rank_user'=>Auth::user()->is_admin,
+            'name_user'=>Auth::user()->name,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'old_data'=>'null',
+            'new_data'=>$convert_array_adddata,
+            'time_add'=>Carbon::now(),
+        ]);
+        General::insert([
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'hp_kw'=>$request->hp_kw." "."แรงม้า",
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        ]);
+
+        return redirect()->route('admin.general');
+    }
+
+    public function edit_General($id)
+    {
+        $general = General::find($id);
+        return view('admin.edit.edit_general',compact('general'));
+    }
+
+    public function update_General(Request $request ,$id)
+    {
+        $general_olddata = General::find($id)->toArray();
+        $convert_array_old_data = implode("|",$general_olddata);
+        $user_action = 'Edit General';
+
+        $image = array();
+        if($files = $request->file('path_img')){
+            foreach($files as $file){
+                $name_gen = hexdec(uniqid());
+                $ext = strtolower($file->getClientOriginalExtension());
+                $image_full_name = $name_gen.'.'.$ext;
+                $upload_path = 'image/generals/';
+                $image_url = $upload_path.$image_full_name;
+                $file->move($upload_path,$image_full_name);
+                $image[] = $image_url;
+            }
+        }
+        $general_newdata = array(
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'hp_kw'=>$request->hp_kw.' ','แรงม้า',
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        );
+        $convert_array_new_data = implode("|",$general_newdata);
+
+        log::insert([
+            'user_id'=>Auth::user()->id,
+            'action'=>$user_action,
+            'rank_user'=>Auth::user()->is_admin,
+            'name_user'=>Auth::user()->name,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'old_data'=>$convert_array_old_data,
+            'new_data'=>$convert_array_new_data,
+            'time_add'=>Carbon::now(),
+        ]);
+        General::find($id)->update([
+            'user_id'=>Auth::user()->id,
+            'brand'=>$request->brand,
+            'model'=>$request->model,
+            'type'=>$request->type,
+            'license'=>$request->license,
+            'code_machine'=>$request->code_machine,
+            'hp_kw'=>$request->hp_kw." "."แรงม้า",
+            'year'=>$request->year,
+            'budget'=>$request->budget,
+            'owner'=>$request->owner,
+            'responsible_person'=>$request->responsible_person,
+            'phone'=>$request->phone,
+            'path_img'=>implode('|',$image),
+            'note'=>$request->note,
+            'is_status'=>$request->is_status,
+            'deleted'=>$request->deleted,
+            'created_at'=>Carbon::now(),
+        ]);    
+        // Truck::find($id)->update([$truck_newdata]);
+        return redirect()->route('admin.general');
+    }
+
+    public function show_General($id)
+    {
+        $general = General::find($id);
+        return view('admin.show.show_general',compact('general'));
+    }
+
+    public function delete_General($id)
+    {
+        $user_action = 'Delete General';
+        $general = General::find($id)->update(['deleted'=>'1']);
+        return redirect()->route('admin.general');
     }
 }

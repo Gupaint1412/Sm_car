@@ -1,7 +1,7 @@
 @extends('layouts.no_chart_template')
 @section('content')
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+  <!-- Content Header (Page header) -->
   <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
@@ -12,7 +12,7 @@
             </div>                                   
             <h4 style="margin-bottom:0">
                 <svg class="w3-animate-zoom" style="top:15px" version="1.0" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
-                    <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="rgba(0,0,0,1)" stroke="none">
+                    <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#28a745" stroke="none">
                         <path d="M3058 4310 c-113 -19 -248 -119 -290 -215 -21 -46 -171 -587 -192
                         -690 -18 -89 -36 -240 -44 -378 l-7 -108 -450 311 -450 311 -12 66 c-26 138
                         -117 258 -242 316 -85 40 -217 50 -302 22 -201 -66 -326 -255 -304 -461 l6
@@ -80,9 +80,35 @@
                   <td style="padding: 12px">
                     <a href="{{route('admin.showMachine',$k->id)}}" class="btn btn-dark"style="margin-right:.25rem;font-size:12px"><i class="bi bi-search"></i></a>
                     <a href="{{route('admin.editMachine',$k->id)}}" class="btn btn-dark"style="margin-right:.25rem;font-size:12px"><i class="bi bi-pencil-square"></i></a>
-                    <a href="#" class="btn btn-danger"style="margin-right:.25rem;font-size:12px"><i class="bi bi-trash3"></i></a>
+                    <a href="#"data-toggle="modal" data-target="#exampleModalCenter_{{$k->id}}" data-action="{{ route('admin.deleteMachine', $k->id) }}" class="btn btn-danger"style="margin-right:.25rem;font-size:12px"><i class="bi bi-trash3"></i></a>
                   </td>
                 </tr>
+                 <!-- Modal -->
+                 <div class="modal fade" id="exampleModalCenter_{{$k->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header  bg bg-danger">
+                        <h5 class="modal-title" id="exampleModalLongTitle"><i class="bi bi-exclamation-octagon" style="padding-right:.3rem"></i>คุณต้องการที่จะลบข้อมูล</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form action="{{ route('admin.deleteMachine', $k->id) }}" method="post">
+                        @csrf
+                        <div class="modal-body">
+                          <div class="d-flex">
+                            <div style="margin-left: auto;margin-right:auto"><p style="margin:0"><b>ยี่ห้อ:</b> &nbsp;&nbsp;&nbsp;{{ $k->brand }} </p><p style="margin:0"><b>แบบชนิด:</b> &nbsp;&nbsp;&nbsp;{{ $k->type }}</p></div>    
+                            <div style="margin-left: auto;margin-right:auto"><p style="margin:0"><b>ทะเบียน:</b> &nbsp;&nbsp;&nbsp;{{ $k->license }} </p><p style="margin:0"><b>รหัส:</b> &nbsp;&nbsp;&nbsp;{{ $k->code_machine }}</p></div>
+                          </div>
+                        </div>                       
+                        <div class="modal-footer" style="justify-content:space-between">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                          <button type="submit" class="btn btn-primary">ยืนยันลบข้อมูล</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
                 @endforeach
               </tbody>
             </table>

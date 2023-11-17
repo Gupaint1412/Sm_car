@@ -39,15 +39,61 @@ Route::post('admin/store_car',[AdminController::class,'store_Car'])->name('admin
 Route::get('admin/show_car/{id}',AdminController::class.'@show_Car')->name('admin.showCar')->middleware('is_admin');
 Route::get('admin/edit_car/{id}',AdminController::class.'@edit_Car')->name('admin.editCar')->middleware('is_admin');
 Route::post('admin/update_car/{id}',AdminController::class.'@update_Car')->name('admin.updateCar')->middleware('is_admin');
+Route::post('admin/delete_car/{id}',AdminController::class.'@delete_Car')->name('admin.deleteCar')->middleware('is_admin');
 //================================== ADMIN CRUD MACHINE
 Route::get('admin/add_machine',[AdminController::class,'add_Machine'])->name('admin.addMachine')->middleware('is_admin');
 Route::post('admin/store_machine',[AdminController::class,'store_Machine'])->name('admin.storeMachine')->middleware('is_admin');
 Route::get('admin/show_machine/{id}',AdminController::class.'@show_Machine')->name('admin.showMachine')->middleware('is_admin');
 Route::get('admin/edit_machine/{id}',AdminController::class.'@edit_Machine')->name('admin.editMachine')->middleware('is_admin');
 Route::post('admin/update_machine/{id}',AdminController::class.'@update_Machine')->name('admin.updateMachine')->middleware('is_admin');
+Route::post('admin/delete_machine/{id}',AdminController::class.'@delete_Machine')->name('admin.deleteMachine')->middleware('is_admin');
+//================================== ADMIN CRUD TRUCK
+Route::get('admin/add_truck',[AdminController::class,'add_Truck'])->name('admin.addTruck')->middleware('is_admin');
+Route::post('admin/store_truck',[AdminController::class,'store_Truck'])->name('admin.storeTruck')->middleware('is_admin');
+Route::get('admin/show_truck/{id}',AdminController::class.'@show_Truck')->name('admin.showTruck')->middleware('is_admin');
+Route::get('admin/edit_truck/{id}',AdminController::class.'@edit_Truck')->name('admin.editTruck')->middleware('is_admin');
+Route::post('admin/update_truck/{id}',AdminController::class.'@update_Truck')->name('admin.updateTruck')->middleware('is_admin');
+Route::post('admin/delete_truck/{id}',AdminController::class.'@delete_Truck')->name('admin.deleteTruck')->middleware('is_admin');
+//================================== ADMIN CRUD GENERAL
+Route::get('admin/add_general',[AdminController::class,'add_General'])->name('admin.addGeneral')->middleware('is_admin');
+Route::post('admin/store_general',[AdminController::class,'store_General'])->name('admin.storeGeneral')->middleware('is_admin');
+Route::get('admin/show_general/{id}',AdminController::class.'@show_General')->name('admin.showGeneral')->middleware('is_admin');
+Route::get('admin/edit_general/{id}',AdminController::class.'@edit_General')->name('admin.editGeneral')->middleware('is_admin');
+Route::post('admin/update_general/{id}',AdminController::class.'@update_General')->name('admin.updateGeneral')->middleware('is_admin');
+Route::post('admin/delete_general/{id}',AdminController::class.'@delete_General')->name('admin.deleteGeneral')->middleware('is_admin');
+
+
 //--------------------------------- Route Users
 Route::get('users/home',[UsersController::class,'index'])->name('users.home');
 Route::get('users/car',[UsersController::class,'usersCar'])->name('users.car');
 Route::get('users/machine',[UsersController::class,'usersMachine'])->name('users.machine');
 Route::get('users/truck',[UsersController::class,'usersTruck'])->name('users.truck');
 Route::get('users/general',[UsersController::class,'usersGeneral'])->name('users.general');
+//================================== USER CRUD CAR
+Route::get('users/add_car',UsersController::class.'@add_Car')->name('users.addCar');
+Route::post('users/store_car',UsersController::class.'@store_Car')->name('users.storeCar');
+Route::get('users/show_car/{id}',UsersController::class.'@show_Car')->name('users.showCar');
+Route::get('users/edit_car/{id}',UsersController::class.'@edit_Car')->name('users.editCar');
+Route::post('users/update_car/{id}',UsersController::class.'@update_Car')->name('users.updateCar');
+Route::post('users/delete_car/{id}',UsersController::class.'@delete_Car')->name('users.deleteCar');
+//================================== USER CRUD Machine
+Route::get('users/add_machine',UsersController::class.'@add_Machine')->name('users.addMachine');
+Route::post('users/store_machine',UsersController::class.'@store_Machine')->name('users.storeMachine');
+Route::get('users/show_machine/{id}',UsersController::class.'@show_Machine')->name('users.showMachine');
+Route::get('users/edit_machine/{id}',UsersController::class.'@edit_Machine')->name('users.editMachine');
+Route::post('users/update_machine/{id}',UsersController::class.'@update_Machine')->name('users.updateMachine');
+Route::post('users/delete_machine/{id}',UsersController::class.'@delete_Machine')->name('users.deleteMachine');
+//================================== USER CRUD Truck
+Route::get('users/add_truck',UsersController::class.'@add_Truck')->name('users.addTruck');
+Route::post('users/store_truck',UsersController::class.'@store_Truck')->name('users.storeTruck');
+Route::get('users/show_truck/{id}',UsersController::class.'@show_Truck')->name('users.showTruck');
+Route::get('users/edit_truck/{id}',UsersController::class.'@edit_Truck')->name('users.editTruck');
+Route::post('users/update_truck/{id}',UsersController::class.'@update_Truck')->name('users.updateTruck');
+Route::post('users/delete_truck/{id}',UsersController::class.'@delete_Truck')->name('users.deleteTruck');
+//================================== USER CRUD General
+Route::get('users/add_general',UsersController::class.'@add_General')->name('users.addGeneral');
+Route::post('users/store_general',UsersController::class.'@store_General')->name('users.storeGeneral');
+Route::get('users/show_general/{id}',UsersController::class.'@show_General')->name('users.showGeneral');
+Route::get('users/edit_general/{id}',UsersController::class.'@edit_General')->name('users.editGeneral');
+Route::post('users/update_general/{id}',UsersController::class.'@update_General')->name('users.updateGeneral');
+Route::post('users/delete_general/{id}',UsersController::class.'@delete_General')->name('users.deleteGeneral');

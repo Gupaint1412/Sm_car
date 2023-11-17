@@ -10,7 +10,7 @@
             <a href="{{route('admin.home')}}" class="btn btn-dark" style="margin-right: 2rem"><i class='bx bx-left-arrow'style="margin-right:.3rem;"></i>ย้อนกลับ</a>
             <a href="{{ route('admin.addCar' )}}" class="btn btn-success"><i class="bi bi-plus-lg" style="margin-right:.3rem;"></i>เพิ่มข้อมูลใหม่</a>
           </div>                                   
-          <h4 style="margin-bottom:0"><i class="fa fa-car" style="padding-right:5px"></i>รายการทั้งหมด {{$data['count_smcar']}} รายการ</h4>
+          <h4 style="margin-bottom:0"><i class="fa fa-car" style="padding-right:5px;color:#17a2b8"></i>รายการทั้งหมด {{$data['count_smcar']}} รายการ</h4>
         </div>        
       </div>
     </div>
@@ -45,9 +45,36 @@
                   <td style="padding: 12px">
                     <a href="{{route('admin.showCar',$k->id)}}" class="btn btn-dark"style="margin-right:.25rem;font-size:12px"><i class="bi bi-search"></i></a>
                     <a href="{{route('admin.editCar',$k->id)}}" class="btn btn-dark"style="margin-right:.25rem;font-size:12px"><i class="bi bi-pencil-square"></i></a>
-                    <a href="#" class="btn btn-danger"style="margin-right:.25rem;font-size:12px"><i class="bi bi-trash3"></i></a>
+                    {{-- <a class="btn btn-danger"style="margin-right:.25rem;font-size:12px" data-bs-toggle="modal" data-bs-target="#deleteUserModal_{{$k->id}}" data-action="{{ route('admin.deleteCar', $k->id) }}"><i class="bi bi-trash3"></i></a> --}}
+                    <a href="#" data-toggle="modal" data-target="#exampleModalCenter_{{$k->id}}" data-action="{{ route('admin.deleteCar', $k->id) }}" class="btn btn-danger"style="margin-right:.25rem;font-size:12px"><i class="bi bi-trash3"></i></a>
                   </td>
-                </tr>
+                </tr>                 
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter_{{$k->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header  bg bg-danger">
+                            <h5 class="modal-title" id="exampleModalLongTitle"><i class="bi bi-exclamation-octagon" style="padding-right:.3rem"></i>คุณต้องการที่จะลบข้อมูล</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form action="{{ route('admin.deleteCar', $k->id) }}" method="post">
+                            @csrf
+                            <div class="modal-body">
+                              <div class="d-flex">
+                                <div style="margin-left: auto;margin-right:auto"><p style="margin:0"><b>ยี่ห้อ:</b> &nbsp;&nbsp;&nbsp;{{ $k->brand }} </p><p style="margin:0"><b>แบบชนิด:</b> &nbsp;&nbsp;&nbsp;{{ $k->type }}</p></div>    
+                                <div style="margin-left: auto;margin-right:auto"><p style="margin:0"><b>ทะเบียน:</b> &nbsp;&nbsp;&nbsp;{{ $k->license }} </p><p style="margin:0"><b>รหัส:</b> &nbsp;&nbsp;&nbsp;{{ $k->code_machine }}</p></div>
+                              </div>
+                            </div>                       
+                            <div class="modal-footer" style="justify-content:space-between">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                              <button type="submit" class="btn btn-primary">ยืนยันลบข้อมูล</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                 @endforeach
               </tbody>
             </table>

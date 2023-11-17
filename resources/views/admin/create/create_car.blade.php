@@ -19,13 +19,16 @@
               <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header bg bg-primary d-flex align-items-center"><i class="bi bi-plus-square" style="padding-right:.5rem"></i>เพิ่มข้อมูลรถยนต์หน่วยงาน</div>
+                        <div class="card-header bg bg-primary d-flex align-items-center" style="justify-content: space-between">
+                            <div class="box"><i class="bi bi-plus-square" style="padding-right:.5rem"></i>เพิ่มข้อมูลรถยนต์หน่วยงาน</div>
+                            <i class="fa fa-car" style="margin-left:auto;"></i>
+                        </div>
                         <div class="card-body">
                             <form action="{{route('admin.storeCar')}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label for="brand">ยี่ห้อรถ</label>
+                                        <label for="brand" class="d-flex"><i class="bi bi-asterisk" style="color:red;font-size:7px"></i>ยี่ห้อรถ</label>
                                         <input type="text" class="form-control input_data" id="Brandcar" name="brand" list="Brand_car"placeholder="กรุณาเลือกยี่ห้อรถ" onkeyup="this.value = this.value.toUpperCase();" required>
                                             <datalist id="Brand_car">    
                                                 <option value="AUDI">Audi</option>
@@ -55,14 +58,14 @@
                                             </datalist> 
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="" class="form-label label_top">
-                                            รุ่นรถ                                        
+                                        <label for="" class="form-label label_top d-flex">
+                                            <i class="bi bi-asterisk" style="color:red;font-size:7px"></i>รุ่นรถ                                        
                                         </label>
                                         <input type="text" class="form-control input_data" id="Modelcar" name="model" placeholder="กรุณาใส่รุ่นรถ  (ตัวอย่าง TRITON)" onkeyup="this.value = this.value.toUpperCase();" required>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="" class="form-label label_top">
-                                            ประเภทรถ                                        
+                                        <label for="" class="form-label label_top d-flex">
+                                            <i class="bi bi-asterisk" style="color:red;font-size:7px"></i>ประเภทรถ                                        
                                         </label>
                                         <input type="text" class="form-control input_data" name="type" id="Typecar" list="Type_car" placeholder="กรุณาเลือกประเภทรถ" required>
                                             <datalist id="Type_car">    
@@ -81,34 +84,34 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-md-6">
-                                        <label for="" class="form-label label_top">
-                                            ทะเบียนรถยนต์                                        
+                                        <label for="" class="form-label label_top d-flex">
+                                            <i class="bi bi-asterisk" style="color:red;font-size:7px"></i>ทะเบียนรถยนต์                                        
                                         </label>
                                         <input type="text" class="form-control input_data" name="license" id="Licensecar" placeholder="กรุณาใส่ทะเบียนรถ  (ตัวอย่าง บว-4007)" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="" class="form-label label_top">
-                                            รหัส                                        
+                                        <label for="" class="form-label label_top d-flex">
+                                            <i class="bi bi-asterisk" style="color:red;font-size:7px"></i>รหัส                                        
                                         </label>
                                         <input type="text" class="form-control input_data" name="code_machine" id="Code_machinecar" placeholder="กรุณาใส่รหัส  (ตัวอย่าง 001-54-0091)" required>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-md-4">
-                                        <label for="" class="form-label label_top">
-                                            ปีที่จัดซื้อ                                        
+                                        <label for="" class="form-label label_top d-flex">
+                                            <i class="bi bi-asterisk" style="color:red;font-size:7px"></i>ปีที่จัดซื้อ                                        
                                         </label>
                                         <input type="text" class="form-control input_data" id="" name="year" placeholder="กรุณาใส่ปีที่จัดซื้อ  (ตัวอย่าง 2564)" required>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="" class="form-label label_top">
-                                            งบประมาณ                                        
+                                        <label for="" class="form-label label_top d-flex">
+                                            <i class="bi bi-asterisk" style="color:red;font-size:7px"></i>งบประมาณ                                        
                                         </label>
                                         <input type="text" class="form-control input_data" id="" name="budget" placeholder="กรุณาใส่งบประมาณ  (ตัวอย่าง 493800)" required>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="" class="form-label label_top">
-                                            หน่วยงานที่ใช้งาน                                        
+                                        <label for="" class="form-label label_top d-flex">
+                                            <i class="bi bi-asterisk" style="color:red;font-size:7px"></i>หน่วยงานที่ใช้งาน                                        
                                         </label>
                                         <input type="text" class="form-control input_data" id="" name="owner" placeholder="กรุณาเลือกหน่วยงาน" list="Owner_car" required>
                                             <datalist id="Owner_car">    
@@ -130,14 +133,14 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-md-6">
-                                        <label for="" class="form-label label_top">
-                                            ผู้รับผิดชอบ                                            
+                                        <label for="" class="form-label label_top d-flex">
+                                            <i class="bi bi-asterisk" style="color:red;font-size:7px"></i>ผู้รับผิดชอบ                                            
                                         </label>
                                             <input type="text" class="form-control input_data" id="Name_res_car" name="responsible_person" placeholder="กรุณาใส่ ชื่อ นามสกุล  (ตัวอย่าง มานี  ปรีดาชัย)" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="" class="form-label label_top">
-                                            เบอร์โทรศัพท์                                            
+                                        <label for="" class="form-label label_top d-flex">
+                                            <i class="bi bi-asterisk" style="color:red;font-size:7px"></i>เบอร์โทรศัพท์                                            
                                         </label>
                                             <input type="text" class="form-control input_data" id="Phonecar" name="phone" placeholder="กรุณาใส่เบอร์โทรศัพท์" maxlength="10" required>
                                     </div>
@@ -158,7 +161,7 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-md-12">
-                                        <label for="formFile" class="form-label">เพิ่มรูปภาพ (เพิ่มได้มากกว่า 1 รูป)</label>
+                                        <label for="formFile" class="form-label d-flex"><i class="bi bi-asterisk" style="color:red;font-size:7px"></i>เพิ่มรูปภาพ (เพิ่มได้มากกว่า 1 รูป)</label>
                                         <input class="form-control-file border" type="file" id="formFile" name="path_img[]" multiple accept="image/*" >                                                                                
                                     </div>                                                                    
                                 </div>

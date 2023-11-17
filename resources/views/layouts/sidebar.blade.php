@@ -22,10 +22,10 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        @if( Auth::user()->is_admin == 1 )
+        @if( Auth::user()->is_admin == 2 )
           <img src="{{ asset('/img_adminlte/user1-128x128.jpg') }}" class="img-circle elevation-2" alt="User Image">
         @else
-          <img src="{{ asset('/img_adminlte/user1-128x128.jpg') }}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ asset('/img_adminlte/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         @endif
       </div>
       <div class="info">
