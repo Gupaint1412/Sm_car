@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="{{ asset('/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     {{-- SweetAlert --}}
     <link rel="stylesheet" href="{{ asset('/sweetalert2/sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    {{-- Toastr --}}
+    <link rel="stylesheet" href="{{ asset('/toastr/toastr.min.css') }}">
     {{-- ChartJS --}}
     <link rel="stylesheet" href="{{ asset('/chart.js/Chart.min.css') }}">
     {{-- Bootstrap --}}
@@ -52,6 +55,11 @@
   <script src="{{ asset('/sweetalert2/sweetalert2.all.min.js')}}"></script>
   {{-- Bootstrap Js --}}
   <script src="{{ asset('/bootstrap/js/bootstrap.min.js')}}"></script>
+  <script src="{{ asset('/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  {{-- Toastr --}}
+  <script src="{{ asset('/toastr/toastr.min.js') }}"></script>
+  {{-- Alert --}}
+  @include('Alert.alert')
   {{-- Test Chart Data --}}
   <script src="{{ asset('/chart.js/dashboard.js')}}"></script>
   {{-- Modify Script --}}
@@ -75,6 +83,42 @@
   {{-- OwlCarousel --}}
   <script type="text/javascript" src="{{asset('/OwlCarousel/dist/owl.carousel.min.js')}}"></script>
   @include('Owl_carousel.owl_carousel')      
-  
+  <script>
+    $(document).ready(function(){
+        $('#idcard').on('keyup',function(){
+        var data_idcard = document.getElementById('idcard').value;
+            if($.trim($(this).val()) != '' && $(this).val().length == 13){
+                id = $(this).val().replace(/-/g,"");
+                var result = Script_checkID(id);            
+                var btn_register = document.getElementById('btn_register');
+                    if(result === false){
+                        $('span.error').removeClass('true').text('เลขบัตรผิด');        
+                        document.getElementById('btn_register').disabled = true;
+                        
+                    }                    
+                    else{
+                        $('span.error').addClass('true').text('เลขบัตรถูกต้อง');
+                        document.getElementById('btn_register').disabled = false;
+                    }
+            }
+            else if(data_idcard.length < 13){
+                $('span.error').removeClass('true').text('ตัวเลขไม่ถึง 13 หลัก');        
+                document.getElementById('btn_register').disabled = true;
+            }
+            else{
+                $('span.error').removeClass('true').text('');        
+            }
+        })
+    });
+
+    function Script_checkID(id){
+        if(id.substring(0,1)== 0) return false;
+        if(id.length != 13) return false;
+            for(i=0, sum=0; i < 12; i++)
+                sum += parseFloat(id.charAt(i))*(13-i);
+        if((11-sum%11)%10!=parseFloat(id.charAt(12))) return false;
+            return true;
+    }
+  </script>
 </body>
 </html>

@@ -17,7 +17,7 @@ class Isadmin
     public function handle(Request $request, Closure $next)
     {
         // return $next($request);
-        if(auth()->user()->is_admin == 2){
+        if(auth()->user()->is_admin == 99){
             return $next($request);
         };
         return redirect('home')->with('error',"You are a normal user.");

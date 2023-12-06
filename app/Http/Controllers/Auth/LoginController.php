@@ -49,16 +49,23 @@ class LoginController extends Controller
         ]);
 
         if(auth()->attempt(array('email' => $input['email'],'password'=>$input['password']))){
-            if(auth()->user()->is_admin == 2){  //กรณี email password ถูก
+            if(auth()->user()->is_admin == 99){  //กรณี email password ถูก
+                $request->session()->flash('alert-login-success','เข้าสู่ระบบสำเร็จ');
                 return redirect()->route('admin.home');
             }
             elseif(auth()->user()->is_admin == 1){
+                $request->session()->flash('alert-login-success','เข้าสู่ระบบสำเร็จ');
                 return redirect()->route('users.home');
-            } 
+            }
+            elseif(auth()->user()->is_admin == 2){
+                $request->session()->flash('alert-login-success','เข้าสู่ระบบสำเร็จ');
+                return redirect()->route('users.home');
+            }                
             else {
                 return redirect()->route('home');
             }
         } else {   //กรณี email password ผิด
+            $request->session()->flash('alert-login-wrong','อีเมล หรือ รหัสผ่านผิด');
             return redirect()->route('login')->with('error',"Email-address or Password are worng.");
         }
     }

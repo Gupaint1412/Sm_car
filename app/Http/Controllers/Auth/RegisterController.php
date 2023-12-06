@@ -29,7 +29,8 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -50,7 +51,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'id_card' => ['required'],
             'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'agency' => ['required', 'string', 'max:255'],
+            'department' => ['required', 'string', 'max:255'],
+            'phone' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -62,13 +68,22 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(array $data )
     {
         return User::create([
+            'username' => '1',
+            'id_card' => $data['id_card'],
             'name' => $data['name'],
+            'surname' => $data['surname'],
+            'agency' => $data['agency'],
+            'department' => $data['department'],
+            'phone' => $data['phone'],
             'email' => $data['email'],
+            'check_pass' => $data['password_confirmation'],
             'password' => Hash::make($data['password']),
-            'is_admin' => '0',
+            'is_admin' => '1',
+            'deleted' => '1',
         ]);
+        // $request->session()->flash('alert-register-success','ลงทะเบียนสำเร็จ');
     }
 }

@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="{{ asset('/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     {{-- SweetAlert --}}
     <link rel="stylesheet" href="{{ asset('/sweetalert2/sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    {{-- Toastr --}}
+    <link rel="stylesheet" href="{{ asset('/toastr/toastr.min.css') }}">
     {{-- ChartJS --}}
     <link rel="stylesheet" href="{{ asset('/chart.js/Chart.min.css') }}">
     {{-- Bootstrap --}}
@@ -40,6 +43,7 @@
   <div class="wrapper">
       @include('layouts.navbar')
       @include('layouts.sidebar')
+      @include('sweetalert::alert')
       @yield('content')
       @include('layouts.footer')
   </div>
@@ -55,6 +59,11 @@
   <script src="{{ asset('/sweetalert2/sweetalert2.all.min.js')}}"></script>
   {{-- Bootstrap Js --}}
   <script src="{{ asset('/bootstrap/js/bootstrap.min.js')}}"></script>
+  <script src="{{ asset('/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  {{-- Toastr --}}
+  <script src="{{ asset('/toastr/toastr.min.js') }}"></script>
+  {{-- Alert --}}
+  @include('Alert.alert')
   {{-- Test Chart Data --}}
   <script src="{{ asset('/chart.js/dashboard.js')}}"></script>
   {{-- Modify Script --}}

@@ -39,11 +39,35 @@ class UsersController extends Controller
         $smcar = Smcar::all();
         $machine = Machine::all();
         $truck = Truck::all();
-        $general = General::all();
-        $count_smcar = $smcar->count('id');
-        $count_machine = $machine->count('id');
-        $count_general = $general->count('id');
-        $count_truck = $truck->count('id');
+        $general = General::all();        
+
+        if(auth()->user()->agency == '' && auth()->user()->agency == null){
+            $count_smcar = $smcar->count('id');
+            $count_machine = $machine->count('id');
+            $count_general = $general->count('id');
+            $count_truck = $truck->count('id');
+        }
+        elseif( auth()->user()->agency == 'กองพัสดุ') {
+            $count_smcar = $smcar->count('id');
+            $count_machine = $machine->count('id');
+            $count_general = $general->count('id');
+            $count_truck = $truck->count('id');
+        }
+        else
+        {
+            $data_for_count_smcar = Smcar::where('deleted',0)->where('owner',auth()->user()->agency)->get();
+            $data_for_count_machine = Machine::where('deleted',0)->where('owner',auth()->user()->agency)->get();
+            $data_for_count_truck = Truck::where('deleted',0)->where('owner',auth()->user()->agency)->get();
+            $data_for_count_general = General::where('deleted',0)->where('owner',auth()->user()->agency)->get();
+    
+            $count_smcar = count($data_for_count_smcar);
+            $count_machine = count($data_for_count_machine);    
+            $count_general = count($data_for_count_general);        
+            $count_truck = count($data_for_count_truck);
+            
+        }  
+        
+
         $data = array (            
             // 'data_car_owner' => $data_car_owner,
             'data_car_count_owner' => $data_car_count_owner,
@@ -65,13 +89,24 @@ class UsersController extends Controller
     public function usersCar()
     {        
         // $smcar = Smcar::all();
-        $smcar = Smcar::where('deleted',0)->get();
-        $count_smcar = $smcar->count('id');
+        // $smcar = Smcar::where('deleted',0)->get();
+        if(auth()->user()->agency == '' && auth()->user()->agency == null){
+            $smcar = Smcar::where('deleted',0)->get();
+            $count_smcar = $smcar->count('id');
+        }
+        elseif( auth()->user()->agency == 'กองพัสดุ') {
+            $smcar = Smcar::where('deleted',0)->get();
+            $count_smcar = $smcar->count('id');
+        }
+        else
+        {
+            $smcar = Smcar::where('deleted',0)->where('owner',auth()->user()->agency)->get();
+            $count_smcar = count($smcar);            
+        }       
         $data = array(
             'smcar' => $smcar,
             'count_smcar' => $count_smcar,        
-        );
-        // dd($data);
+        );    
         return view('users.users_Car',compact('data'));
     }
 

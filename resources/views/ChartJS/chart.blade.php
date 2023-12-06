@@ -200,7 +200,7 @@
     }
     function ShowGraphMachine_Type_Bar(){
         var data_obj_smcar = @php echo json_encode($data_chart_count_machine_owner); @endphp;
-            console.log(data_obj_smcar);
+            // console.log(data_obj_smcar);
               let owner_car = [];
               let count_car = [];
               for(let i in data_obj_smcar){
@@ -326,7 +326,7 @@
     }
     function ShowGraphTruck_Type_Bar(){
         var data_obj_smcar = @php echo json_encode($data_chart_count_truck_owner); @endphp;
-            console.log(data_obj_smcar);
+            // console.log(data_obj_smcar);
               let owner_car = [];
               let count_car = [];
               for(let i in data_obj_smcar){
@@ -452,7 +452,7 @@
     }
     function ShowGraphGeneral_work_Type_Bar(){
         var data_obj_smcar = @php echo json_encode($data_chart_count_general_work_owner); @endphp;
-            console.log(data_obj_smcar);
+            // console.log(data_obj_smcar);
               let owner_car = [];
               let count_car = [];
               for(let i in data_obj_smcar){

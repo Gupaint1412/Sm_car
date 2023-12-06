@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+// use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminController extends Controller
 {
@@ -35,13 +36,19 @@ class AdminController extends Controller
         return view('home');
     }
 //------------------------------------------------------ Index adminCar
-    public function adminHome()
-    {   // How to get data search Eloquent or Query Builder
-        // $data_car_owner = DB::table('smcar2')->select('owner')->groupBy('owner')->get();
-        $data_car_count_owner = DB::table('smcar2')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();
-        $data_machine_count_owner = DB::table('machine2')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();
-        $data_truck_count_owner = DB::table('truck')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();
-        $data_general_work_count_owner = DB::table('general_work')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();
+    public function adminHome(Request $request)
+    {   // How to get data search Eloquent or Query Builder        
+
+        // $data_car_count_owner = DB::table('smcar2')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();             
+        // $data_machine_count_owner = DB::table('machine2')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();
+        // $data_truck_count_owner = DB::table('truck')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();        
+        // $data_general_work_count_owner = DB::table('general_work')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();
+
+        $data_car_count_owner = DB::table('smcar2')->select('owner','deleted')->select('owner',DB::raw('count(owner) as _c'))->where('deleted',0)->groupBy('owner')->get();  
+        $data_machine_count_owner = DB::table('machine2')->select('owner','deleted')->select('owner',DB::raw('count(owner) as _c'))->where('deleted',0)->groupBy('owner')->get();        
+        $data_truck_count_owner = DB::table('truck')->select('owner','deleted')->select('owner',DB::raw('count(owner) as _c'))->where('deleted',0)->groupBy('owner')->get();        
+        $data_general_work_count_owner = DB::table('general_work')->select('owner','deleted')->select('owner',DB::raw('count(owner) as _c'))->where('deleted',0)->groupBy('owner')->get();
+
         // $smcar = Smcar::all();   //Eloquent
         $smcar = Smcar::where('deleted',0)->get();
         $machine = Machine::all();
@@ -65,21 +72,21 @@ class AdminController extends Controller
             'count_truck' => $count_truck,
             'general' => $general,
             'count_general' => $count_general,
-        );        
+        );    
+        // $request->session()->flash('alert-success','show Success alert');
         return view('admin.adminHome',compact('data'));
     }
 //------------------------------------------------------ END Index adminCar
 
 //------------------------------------------------------ Data Table AdminCar
     public function adminCar()
-    {        
-        // $smcar = Smcar::all();
-        $smcar = Smcar::where('deleted',0)->get();
-        $count_smcar = $smcar->count('id');
-        $data = array(
-            'smcar' => $smcar,   
-            'count_smcar' => $count_smcar,                    
-        );
+    {                
+    $smcar = Smcar::where('deleted',0)->get();
+    $count_smcar = $smcar->count('id');
+    $data = array(
+        'smcar' => $smcar,   
+        'count_smcar' => $count_smcar,                    
+    );                    
         // dd($data);
         return view('admin.admin_Car',compact('data'));
         // return view('admin.admin_Car')->with('smcar',$smcar);
@@ -159,7 +166,7 @@ class AdminController extends Controller
             'deleted'=>$request->deleted,
             'created_at'=>Carbon::now(),
         ]);
-
+        $request->session()->flash('alert-store-success','บันทึกข้อมูลสำเร็จ');
         return redirect()->route('admin.car');
     }    
 //------------------------------------------------------ End Store Car

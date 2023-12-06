@@ -14,12 +14,15 @@
     <link rel="stylesheet" href="{{ asset('/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     {{-- SweetAlert --}}
     <link rel="stylesheet" href="{{ asset('/sweetalert2/sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    {{-- Toastr --}}
+    <link rel="stylesheet" href="{{ asset('/toastr/toastr.min.css') }}">
     {{-- ChartJS --}}
     <link rel="stylesheet" href="{{ asset('/chart.js/Chart.min.css') }}">
     {{-- Bootstrap --}}
     <link rel="stylesheet" href="{{ asset('/bootstrap/css/bootstrap.min.css') }}">
     {{-- Bootstrap Icon --}}
-    <link rel="stylesheet" href="{{ asset('/bootstrap_icon/font/bootstrap-icons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bootstrap_icon/font/bootstrap-icons.min.css') }}">    
     {{-- Thai Font --}}
     <link href='https://fonts.googleapis.com/css?family=Kanit&subset=thai,latin' rel='stylesheet' type='text/css'>
     {{-- Mofify Css --}}
@@ -55,6 +58,11 @@
   <script src="{{ asset('/sweetalert2/sweetalert2.all.min.js')}}"></script>
   {{-- Bootstrap Js --}}
   <script src="{{ asset('/bootstrap/js/bootstrap.min.js')}}"></script>
+  <script src="{{ asset('/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  {{-- Toastr --}}
+  <script src="{{ asset('/toastr/toastr.min.js') }}"></script>
+  {{-- Alert --}}
+  @include('Alert.alert')
   {{-- Test Chart Data --}}
   <script src="{{ asset('/chart.js/dashboard.js')}}"></script>
   {{-- Modify Script --}}
