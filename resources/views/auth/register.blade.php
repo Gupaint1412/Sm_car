@@ -1,5 +1,4 @@
-@extends('layouts.login_template')
-
+@extends('layouts.register_template')
 @section('content')
 <style>
     @import url('https://fonts.googleapis.com/css?family=Kanit&subset=thai,latin');
@@ -205,6 +204,24 @@
     .error.true{
     color:#6bc900;
     }
+    .error_email{
+     color:#F00;
+    }
+    .error_email.true{
+    color:#6bc900;
+    }
+    .error_password{
+    color:#F00;
+    }
+    .error_password.true{
+    color:#6bc900;
+    }
+    .error_password2{
+    color:#F00;
+    }
+    .error_password2.true{
+    color:#6bc900;
+    }
     @media (max-width: 860.5px) {
         .wrapper{
             margin: 50px 5px;
@@ -239,6 +256,7 @@
         }
     }
 </style>
+   
 <div class="wrapper">
     <div class="form-left" style="display: flex;justify-content:center;align-items:center;">
         <img src="{{asset('/img/logo_pao.png')}}" alt="">        
@@ -248,7 +266,7 @@
         <h2 class="text-uppercase">ลงทะเบียนเข้าใช้งาน</h2>
         <div class="mb-3">
            <div class="d-flex" style="justify-content: space-between"><div class="d-flex"><i class='bx bx-health' style="color:red;font-size:8px"></i><label>เลขบัตรประชาชน</label></div> <span class="error" style="margin-bottom:8px"></span></div>
-            <input type="number" class="input-field" id="idcard" name="id_card" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==13) return false;"  required/>            
+            <input type="number" class="input-field checker" id="idcard" name="id_card" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==13) return false;"  required/>            
         </div>
         <div class="row">
             <div class="col-sm-6 mb-3">
@@ -291,17 +309,24 @@
             <input type="number" class="input-field" name="phone" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;" required/>
         </div>
         <div class="mb-3">
-            <div class="d-flex"><i class='bx bx-health' style="color:red;font-size:8px"></i><label>อีเมล</label></div>
-            <input type="email" class="input-field" name="email" required>
+            <div class="d-flex" style="justify-content: space-between"><div class="d-flex"><i class='bx bx-health' style="color:red;font-size:8px"></i><label>อีเมล</label></div><span class="error_email" style="margin-bottom:8px"></span></div>
+            <input type="email" class="input-field checker" name="email" id="email" required>
         </div>
         <div class="row">
+            
             <div class="col-sm-6 mb-3">
-                <div class="d-flex"><i class='bx bx-health' style="color:red;font-size:8px"></i><label>รหัสผ่าน</label></div>
-                <input type="password" name="password" id="password" class="input-field" required>
+                <div class="d-flex" style="justify-content: space-between"> <div class="d-flex"><i class='bx bx-health' style="color:red;font-size:8px"></i><label>รหัสผ่าน</label></div></div>
+                <input type="password" name="password" id="password" class="input-field" autoComplete="true" required>
             </div>
             <div class="col-sm-6 mb-3">
-                <div class="d-flex"><i class='bx bx-health' style="color:red;font-size:8px"></i><label>ยืนยันรหัสผ่าน</label></div>
-                <input type="password" name="password_confirmation" id="password-confirm" class="input-field" required>
+                <div class="d-flex" style="justify-content: space-between"><div class="d-flex"><i class='bx bx-health' style="color:red;font-size:8px"></i><label>ยืนยันรหัสผ่าน</label></div></div>
+                <input type="password" name="password_confirmation" id="password-confirm" class="input-field checker" autoComplete="true" required>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                <div class="elert_error">
+                <span class="error_password" style="margin-bottom:8px"></span>
+                <span class="error_password2" style="margin-bottom:8px"></span>
+                </div>
             </div>
         </div>
         {{-- <div class="mb-3">
@@ -310,9 +335,12 @@
                 <span class="checkmark"></span>
             </label>
         </div> --}}
+        {{-- @php
+        dd($data);
+        @endphp --}}
         <div class="form-field" style="display: flex; justify-content:space-between;margin-top:1rem;">
             {{-- <input type="submit" value="Register" class="register" name="register"> --}}
-            <a href="#" class="btn btn-secondary" style="display: flex;align-items:center;"><i class='bx bx-home' style="padding-right:.25rem"></i>หน้าหลัก</a>
+            <a href="{{url('/')}}" class="btn btn-secondary" style="display: flex;align-items:center;"><i class='bx bx-home' style="padding-right:.25rem"></i>หน้าหลัก</a>
             <button type="button" class="btn btn-primary" id="btn_register" style="display: flex;align-items:center" data-toggle="modal" data-target="#exampleModalCenter"><i class='bx bx-save' style="padding-right: .25rem"></i>ลงทะเบียน </button>            
         </div>
         <!-- Modal -->
@@ -337,6 +365,5 @@
         </div>
     </form>
 </div>
-
 
 @endsection

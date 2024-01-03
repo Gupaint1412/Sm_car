@@ -36,10 +36,10 @@ class UsersController extends Controller
         $data_machine_count_owner = DB::table('machine2')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();
         $data_truck_count_owner = DB::table('truck')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();
         $data_general_work_count_owner = DB::table('general_work')->select('owner',DB::raw('count(owner) as _c'))->groupBy('owner')->get();
-        $smcar = Smcar::all();
-        $machine = Machine::all();
-        $truck = Truck::all();
-        $general = General::all();        
+        $smcar = Smcar::where('deleted',0)->get();
+        $machine = Machine::where('deleted',0)->get();
+        $truck = Truck::where('deleted',0)->get();
+        $general = General::where('deleted',0)->get();        
 
         if(auth()->user()->agency == '' && auth()->user()->agency == null){
             $count_smcar = $smcar->count('id');
@@ -67,7 +67,6 @@ class UsersController extends Controller
             
         }  
         
-
         $data = array (            
             // 'data_car_owner' => $data_car_owner,
             'data_car_count_owner' => $data_car_count_owner,
@@ -84,6 +83,161 @@ class UsersController extends Controller
             'count_general' => $count_general,
         );       
         return view('users.usersHome',compact('data'));
+    }
+
+    public function expire()
+    {
+        if(auth()->user()->agency == '' && auth()->user()->agency == null){
+            $smcar = Smcar::where('deleted',2)->get();
+            $machine = Machine::where('deleted',2)->get();
+            $truck = Truck::where('deleted',2)->get();
+            $general = General::where('deleted',2)->get();
+            $count_smcar = count($smcar);
+            $count_machine = count($machine);
+            $count_truck = count($truck);
+            $count_general = count($general);
+        }
+        elseif( auth()->user()->agency == 'กองพัสดุ') {
+            $smcar = Smcar::where('deleted',2)->get();
+            $machine = Machine::where('deleted',2)->get();
+            $truck = Truck::where('deleted',2)->get();
+            $general = General::where('deleted',2)->get();
+            $count_smcar = count($smcar);
+            $count_machine = count($machine);
+            $count_truck = count($truck);
+            $count_general = count($general);
+        }
+        else
+        {
+            $smcar = Smcar::where('deleted',2)->where('owner',auth()->user()->agency)->get();
+            $count_smcar = count($smcar);
+            $machine = Machine::where('deleted',2)->where('owner',auth()->user()->agency)->get();
+            $count_machine = count($machine);
+            $truck = Truck::where('deleted',2)->where('owner',auth()->user()->agency)->get();
+            $count_truck = count($truck);
+            $general = General::where('deleted',2)->where('owner',auth()->user()->agency)->get();
+            $count_general = count($general);
+        }       
+        $data = array(
+            'smcar' => $smcar,
+            'machine' => $machine,
+            'truck' => $truck,
+            'general' => $general,
+            'count_smcar' => $count_smcar,
+            'count_machine' => $count_machine,
+            'count_truck' => $count_truck,
+            'count_general' => $count_general,        
+        );    
+        // dd($data);
+        return view('users.expire.expire',compact('data'));
+    }
+
+    public function show_car_expire($id)
+    {
+        $smcar = Smcar::find($id);
+        return view('users.expire.data_car_expire',compact('smcar'));
+    }
+
+    public function show_machine_expire($id)
+    {
+        $machine = Machine::find($id);
+        return view('users.expire.data_machine_expire',compact('machine'));
+    }
+
+    public function show_truck_expire($id)
+    {
+        $truck = Truck::find($id);
+        return view('users.expire.data_truck_expire',compact('truck'));
+    }
+    
+    public function show_general_expire($id)
+    {
+        $general = General::find($id);
+        return view('users.expire.data_general_expire',compact('general'));
+    }
+
+    public function Clear_Car(Request $request ,$id)
+    {   
+        $smcar_olddata = Smcar::find($id)->toArray();
+        $convert_array_old_data = implode("|",$smcar_olddata);
+        $user_action = 'ยืนยันการจำหน่ายรถยนต์';       
+        log::insert([
+            'user_id'=>Auth::user()->id,
+            'action'=>$user_action,
+            'rank_user'=>Auth::user()->is_admin,
+            'name_user'=>Auth::user()->name,
+            'license'=>'',
+            'code_machine'=>'',
+            'old_data'=>$convert_array_old_data,
+            'new_data'=>'',
+            'time_add'=>Carbon::now(),
+        ]); 
+        $smcar = Smcar::find($id)->update(['deleted'=>'3']);
+        $request->session()->flash('alert-deleted-success','ยืนยันจำหน่ายรถยนต์สำเร็จ');
+        return redirect()->route('users.expire');
+    }
+
+    public function Clear_Machine(Request $request ,$id)
+    {   
+        $machine_olddata = Machine::find($id)->toArray();
+        $convert_array_old_data = implode("|",$machine_olddata);
+        $user_action = 'ยืนยันการจำหน่ายเครื่องจักร';       
+        log::insert([
+            'user_id'=>Auth::user()->id,
+            'action'=>$user_action,
+            'rank_user'=>Auth::user()->is_admin,
+            'name_user'=>Auth::user()->name,
+            'license'=>'',
+            'code_machine'=>'',
+            'old_data'=>$convert_array_old_data,
+            'new_data'=>'',
+            'time_add'=>Carbon::now(),
+        ]); 
+        $machine = Machine::find($id)->update(['deleted'=>'3']);
+        $request->session()->flash('alert-deleted-success','ยืนยันจำหน่ายเครื่องจักรสำเร็จ');
+        return redirect()->route('users.expire');
+    }
+
+    public function Clear_Truck(Request $request ,$id)
+    {   
+        $truck_olddata = Truck::find($id)->toArray();
+        $convert_array_old_data = implode("|",$truck_olddata);
+        $user_action = 'ยืนยันการจำหน่ายรถบรรทุก';       
+        log::insert([
+            'user_id'=>Auth::user()->id,
+            'action'=>$user_action,
+            'rank_user'=>Auth::user()->is_admin,
+            'name_user'=>Auth::user()->name,
+            'license'=>'',
+            'code_machine'=>'',
+            'old_data'=>$convert_array_old_data,
+            'new_data'=>'',
+            'time_add'=>Carbon::now(),
+        ]); 
+        $truck = Truck::find($id)->update(['deleted'=>'3']);
+        $request->session()->flash('alert-deleted-success','ยืนยันจำหน่ายรถบรรทุกสำเร็จ');
+        return redirect()->route('users.expire');
+    }
+
+    public function Clear_General(Request $request ,$id)
+    {   
+        $general_olddata = General::find($id)->toArray();
+        $convert_array_old_data = implode("|",$general_olddata);
+        $user_action = 'ยืนยันการจำหน่ายเคริ่องใช้ทั่วไป';       
+        log::insert([
+            'user_id'=>Auth::user()->id,
+            'action'=>$user_action,
+            'rank_user'=>Auth::user()->is_admin,
+            'name_user'=>Auth::user()->name,
+            'license'=>'',
+            'code_machine'=>'',
+            'old_data'=>$convert_array_old_data,
+            'new_data'=>'',
+            'time_add'=>Carbon::now(),
+        ]); 
+        $general = General::find($id)->update(['deleted'=>'3']);
+        $request->session()->flash('alert-deleted-success','ยืนยันจำหน่ายเครื่องใช้ทั่วไปสำเร็จ');
+        return redirect()->route('users.expire');
     }
 
     public function usersCar()

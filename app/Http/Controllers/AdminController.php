@@ -51,9 +51,9 @@ class AdminController extends Controller
 
         // $smcar = Smcar::all();   //Eloquent
         $smcar = Smcar::where('deleted',0)->get();
-        $machine = Machine::all();
-        $truck = Truck::all();
-        $general = General::all();
+        $machine = Machine::where('deleted',0)->get();
+        $truck = Truck::where('deleted',0)->get();
+        $general = General::where('deleted',0)->get();
         $count_smcar = $smcar->count('id');
         $count_machine = $machine->count('id');
         $count_general = $general->count('id');

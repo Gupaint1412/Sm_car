@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UsersController;
@@ -23,6 +24,9 @@ use App\Models\General;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//--------------------------------- Route Register
+Route::get('admin/home',[AdminController::class,'adminHome'])->name('admin.home');
 
 Auth::routes();
 
@@ -97,3 +101,17 @@ Route::get('users/show_general/{id}',UsersController::class.'@show_General')->na
 Route::get('users/edit_general/{id}',UsersController::class.'@edit_General')->name('users.editGeneral');
 Route::post('users/update_general/{id}',UsersController::class.'@update_General')->name('users.updateGeneral');
 Route::post('users/delete_general/{id}',UsersController::class.'@delete_General')->name('users.deleteGeneral');
+//================================== USER Expire
+Route::get('users/expire',UsersController::class.'@expire')->name('users.expire');
+Route::get('users/data_expire_car/{id}',UsersController::class.'@show_car_expire')->name('users.expireCar');
+Route::get('users/data_expire_machine/{id}',UsersController::class.'@show_machine_expire')->name('users.expireMachine');
+Route::get('users/data_expire_truck/{id}',UsersController::class.'@show_truck_expire')->name('users.expireTruck');
+Route::get('users/data_expire_general/{id}',UsersController::class.'@show_general_expire')->name('users.expireGeneral');
+
+//================================== USER Expire EDITER
+Route::post('users/clear_car/{id}',UsersController::class.'@Clear_Car')->name('users.clearCar');
+Route::post('users/clear_machine/{id}',UsersController::class.'@Clear_Machine')->name('users.clearMachine');
+Route::post('users/clear_truck/{id}',UsersController::class.'@Clear_Truck')->name('users.clearTruck');
+Route::post('users/clear_general/{id}',UsersController::class.'@Clear_General')->name('users.clearGeneral');
+
+

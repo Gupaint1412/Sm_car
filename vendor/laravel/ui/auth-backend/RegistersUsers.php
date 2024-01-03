@@ -6,6 +6,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 trait RegistersUsers
 {
@@ -18,7 +19,12 @@ trait RegistersUsers
      */
     public function showRegistrationForm()
     {
-        return view('auth.register');
+        // $user = User::all(['id_card']);
+        $id_card = User::all(['id_card'])->toArray();        
+        $id_card_user = json_encode($id_card);
+        $email = User::all(['email'])->toArray();
+        $email_user = json_encode($email);
+        return view('auth.register',compact('id_card_user','email_user'));
     }
 
     /**

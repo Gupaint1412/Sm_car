@@ -38,11 +38,8 @@
     <link rel="stylesheet" href="{{ asset('/OwlCarousel/dist/assets/owl.theme.default.min.css') }}">    
     <title>ข้อมูลรถยนต์ส่วนกลาง</title>
 </head>
-
-<body >
-    
+<body >    
       @yield('content')
-
   {{-- jQuery --}}
   <script src="{{ asset('/jquery/jquery.min.js')}}"></script>  
   {{-- ChartJS --}}
@@ -82,43 +79,6 @@
   @include('DataTable.table')
   {{-- OwlCarousel --}}
   <script type="text/javascript" src="{{asset('/OwlCarousel/dist/owl.carousel.min.js')}}"></script>
-  @include('Owl_carousel.owl_carousel')      
-  <script>
-    $(document).ready(function(){
-        $('#idcard').on('keyup',function(){
-        var data_idcard = document.getElementById('idcard').value;
-            if($.trim($(this).val()) != '' && $(this).val().length == 13){
-                id = $(this).val().replace(/-/g,"");
-                var result = Script_checkID(id);            
-                var btn_register = document.getElementById('btn_register');
-                    if(result === false){
-                        $('span.error').removeClass('true').text('เลขบัตรผิด');        
-                        document.getElementById('btn_register').disabled = true;
-                        
-                    }                    
-                    else{
-                        $('span.error').addClass('true').text('เลขบัตรถูกต้อง');
-                        document.getElementById('btn_register').disabled = false;
-                    }
-            }
-            else if(data_idcard.length < 13){
-                $('span.error').removeClass('true').text('ตัวเลขไม่ถึง 13 หลัก');        
-                document.getElementById('btn_register').disabled = true;
-            }
-            else{
-                $('span.error').removeClass('true').text('');        
-            }
-        })
-    });
-
-    function Script_checkID(id){
-        if(id.substring(0,1)== 0) return false;
-        if(id.length != 13) return false;
-            for(i=0, sum=0; i < 12; i++)
-                sum += parseFloat(id.charAt(i))*(13-i);
-        if((11-sum%11)%10!=parseFloat(id.charAt(12))) return false;
-            return true;
-    }
-  </script>
+  @include('Owl_carousel.owl_carousel')        
 </body>
 </html>
